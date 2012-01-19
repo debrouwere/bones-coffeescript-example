@@ -1,0 +1,12 @@
+This app is Bones + CoffeeScript + Stylus (for css preprocessing) + Jade (for templates)
+
+Run using 
+
+./clean; ./build; ./serve
+
+* Bones is primarily a way to make the same code available on both client-side and server-side (or just the server side if you wish) but it has no opinion on how you should structure your application, and by default, if *you* don't enable client-side routing using Backbone, Bones won't do it for you. Likewise, it's up to you to actually initialize your Backbone Views client-side, Bones just makes them easily available. Likewise, although lots of good stuff (your models, views, templates) is available inside of /assets/bones/all.js, if you use your own template language or whatever it's *your* responsibility to include the dependencies for that.
+* The most important code you'll have to write or include yourself to actually make Bones work is in routers/App.coffee and routers/App.server.coffee, where view rendering for client- and server-side are handled.
+* What happens to Bones files is that they get wrapped in a function that passes on certain arguments (views, routers, models, template) and return the view, router, model you've defined inside of that file. So even though it seems magical at first, the implementation is actually pretty straightforward.
+* Asset serving from the /assets/ directory is enabled by default. Bones also serves jQuery, Backbone.js and underscore.js by default. Remember, however, that your own assets will be namespaced with your app name. This avoids clashes with other Bones plugins, which can all add their own assets. For example, if your application (as named in package.json) is "cryptonomicon" then the file `/assets/stylesheets/crypto.css` will be available under `/assets/cryptonomicon/stylesheets/crypto.css` on the server.
+* Bones doesn't take care of actually making sure your Backbone client-side routing is set up, be it using hashbangs or HTML5 pushState. You have to do that yourself (see assets/scripts/initialize.coffee)
+* The biggest hack to get Backbone to work both client-side and server-side is in the _ensureElement code in Backbone views. I'm still not sure I entirely understand the trickery that's going on there.

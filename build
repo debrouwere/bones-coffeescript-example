@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Build the application and give all javascript files the .bones extension
+coffee -cbo lib src
+find lib/*/ -name '*.js' -exec rename -f 's/\.js$/\.bones/i' {} \;
+
+# Copy over html templates to the build directory
+cp -r src/templates lib
+
+# Client-side CoffeeScripts that live outside of the Bones framework
+# shouldn't have the .bones extension. This undoes our previous
+# renaming operation for those files.
+find lib/assets/scripts/ -name '*.bones' -exec rename -f 's/\.bones$/\.js/i' {} \;
+
+# Copy static assets to the build directory
+cp -r src/assets lib
+
+# Compile stylesheets
+stylus lib/assets/stylesheets
+
+# Delete source files inside of the build directory
+rm lib/assets/scripts/*.coffee
+rm lib/assets/stylesheets/*.styl
+
+# Copy the package.json file to the build directory. Bones requires 
+# this file in order to know the name of our application, which it 
+# will use as a namespace in certain contexts.
+cp package.json lib
