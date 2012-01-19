@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Indian and Rye", 
+        "slug": "indian-and-rye", 
+        "description": ""
+    },
+    {
+        "name": "Salt Rising Bread", 
+        "slug": "salt-rising-bread", 
+        "description": ""
+    },
+    {
+        "name": "Melonpan", 
+        "slug": "melonpan", 
+        "description": ""
+    },
+    {
+        "name": "Spelt loaf", 
+        "slug": "spelt-loaf", 
+        "description": ""
+    },
+    {
+        "name": "Milk bread", 
+        "slug": "milk-bread", 
+        "description": ""
+    },  
+    {
+        "name": "French Baguette", 
+        "slug": "french-baguette", 
+        "description": ""
+    }      
+]

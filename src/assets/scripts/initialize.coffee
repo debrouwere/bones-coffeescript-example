@@ -1,5 +1,13 @@
 Bones.initialize (models, views, routers, templates) ->
-    window.router = new routers.Main()
+    window.app =
+        models: models
+        views: views
+        routers: routers
+        templates: templates
+
+    main_router = new routers.Main()
+    app.navigate = main_router.navigate
+    
     # `options` is a global variable that's made available in another script
     # that gets loaded before this one. It contains context variables for
     # the view
@@ -22,5 +30,11 @@ Bones.initialize (models, views, routers, templates) ->
         url = event.target.getAttribute('href', 2)
         external_link = url.slice(0, 4) is 'http'
         unless external_link
-            router.navigate url, true
+            app.navigate url, true
             event.preventDefault()
+
+
+    # how can we have these fetched models be available both client- and server-side?
+    breads = new app.models.Breads()
+    breads.fetch success: ->
+        console.log breads.pluck('name')
