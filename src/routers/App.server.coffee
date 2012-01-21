@@ -16,7 +16,7 @@ router = routers.App.extend
 
         # fetch model data first before we try to render
         main.prepare =>
-            #main.render()
+            main.render()
         
             # Send the page to the client
             # (including the templates.App "chrome")
