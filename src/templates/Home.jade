@@ -1,2 +1,4 @@
-h1 Hall of Fame
-p: a(href='/profile/stijn/') Your personal page
+h1 Breads from around the world
+ul
+- each bread in breads.models
+    li: a(href=bread.path)= bread.get('name')

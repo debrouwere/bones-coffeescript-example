@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 require('./lib/bootstrap');
+require('./lib/models/Collection');
 require('bones').load(__dirname + '/lib');
 
 if (!module.parent) {

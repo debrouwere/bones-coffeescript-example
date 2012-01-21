@@ -10,31 +10,19 @@ time = Date.now()
 # same views back onto the DOM client side.
 
 router = routers.App.extend
-    send: (view, context = {}) ->
+    send: (view, options = {}) ->
         # Execute the main view.
-        main = new view(context)
-        main.render()
+        main = new view(options)
 
-        # Provide all models with the data that we'll use to prop them back up
-        # on the browser.
-        data = _.map context, (v, k) ->
-            # Any options that is a model or collection will have its title
-            # declared. Use this to re-hydrate it.
-            model = v.constructor.title
-            key = JSON.stringify(k)
-            value = JSON.stringify(context[k])
-            
-            if model?
-                return "#{key}: new models.#{model}(#{value})"
-            else
-                return "#{key}: #{value}"
-
-        serialized_data = '{' + data.join(',') + '}'
-
-        # Finally send the page to the client.
-        @res.send Bones.plugin.templates.App
-            version: time
-            title: @pageTitle(main)
-            main: $(main.el).html()
-            view: main.constructor.title
-            options: serialized_data
+        # fetch model data first before we try to render
+        main.prepare =>
+            #main.render()
+        
+            # Send the page to the client
+            # (including the templates.App "chrome")
+            @res.send Bones.plugin.templates.App
+                version: time
+                title: @pageTitle(main)
+                main: $(main.el).html()
+                view: main.constructor.title
+                options: JSON.stringify(options)

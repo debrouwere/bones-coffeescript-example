@@ -7,12 +7,17 @@ view = Backbone.View.extend
         else
             @el = $('body')
 
-    initialize: (options) ->
+    initialize: (options) ->        
         unless Bones.server or options.el
             @el = $('#main')
 
     # load a page or refresh a page element
-    render: ->
-        rendering = templates[@template] @options
+    refresh: ->
+        rendering = templates[@template] _.extend({}, @options)
         $(@el).empty().append rendering
+        
         return this
+
+    render: ->
+        @refresh()
+        this

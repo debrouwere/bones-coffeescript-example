@@ -8,15 +8,14 @@ router = Backbone.Router.extend
         else
             return title
 
-    send: (view, context = {}) ->
-        view = new view(context)
-
-        # Populate the #page div with the main view.
-        $(@el).empty().append(view.el)
-        view.render()
+    send: (view, options = {}) ->
+        view = new view(options)
 
         # Set the page title.
         document.title = @pageTitle(view)
+        # Populate the #page div with the main view.
+        view.prepare ->
+            view.render()
 
     # Generic error handling for our Router.
     error: (error) ->

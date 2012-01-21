@@ -7,17 +7,10 @@ Bones.initialize (models, views, routers, templates) ->
 
     main_router = new routers.Main()
     app.navigate = main_router.navigate
-    
-    # `options` is a global variable that's made available in another script
-    # that gets loaded before this one. It contains context variables for
-    # the view
-    new views[view](options)
 
     state = Backbone.history.start
         root: ''            # empty so we can have all our routes start with '/'
         pushState: true     # HTML5 history support
-        silent: true        # don't redraw the current view on startup because
-                            # it's already been rendered on the server
 
     # All navigation that is relative should be passed through the navigate
     # method, to be processed by the router.  If the link has a data-bypass
@@ -32,9 +25,3 @@ Bones.initialize (models, views, routers, templates) ->
         unless external_link
             app.navigate url, true
             event.preventDefault()
-
-
-    # how can we have these fetched models be available both client- and server-side?
-    breads = new app.models.Breads()
-    breads.fetch success: ->
-        console.log breads.pluck('name')
